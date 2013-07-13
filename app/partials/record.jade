@@ -1,9 +1,16 @@
 div.row
-  div.row
-    h1 Record
-  div.row
-    div.span12
-      input(type="file")
-  div.row
-    div.span12
-      pickdate
+  div.span12
+    input(type="text",class="input-xxlarge",placeholder="What",ng-model="formData.title")
+div.row
+  div.span12
+    input(type="file",accept="image/*",onchange="angular.element(this).scope().setFile(this)")
+  div.span12.well
+    div {{formData.file}}
+    img(ng-src="{{formData.file}}")
+div.row
+  div.span12
+    pickdate
+div.row
+  div.span12
+    button.btn.btn-success(ng-click="record()") Record
+

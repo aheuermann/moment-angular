@@ -1,2 +1,14 @@
-div.well
-  h1 View
+div.row
+  div.span12
+    h1 {{d.title}}
+
+div.row
+  div.span12
+    img(ng-src="{{d.link}}")
+
+div.row
+  div.span12
+    div.date {{d.dateFormatted}}
+
+
+
