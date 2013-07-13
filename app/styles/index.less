@@ -1,0 +1,24 @@
+@import "_variables.less";
+@import "../../vendor/styles/bootstrap/_bootstrap.less";
+@import "../../vendor/styles/bootstrap/_responsive.less";
+@import "../../vendor/styles/_flatty.less";
+
+*, *:before, *:after { .box-sizing(border-box); }
+
+input {
+    .box-sizing(content-box);
+}
+
+body {
+  @media (min-width: 979px){
+    padding-top: 60px;
+  }
+}
+
+::selection {
+  background: lighten(@green, 20%);
+}
+::-moz-selection {
+  background: lighten(@green, 20%);
+}
+
