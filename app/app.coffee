@@ -1,6 +1,7 @@
 # Declare app level module which depends on filters, and services
 angular.module('app', [
   'ui.bootstrap'
+  'ui.map'
   'ngCookies'
   'ngResource'
   'app.controllers'
@@ -11,7 +12,7 @@ angular.module('app', [
 .config(($routeProvider, $locationProvider) ->
   $routeProvider
     .when('/record', {templateUrl: '/partials/record.html', controller:"RecordCtrl"})
-    .when('/v/:id', {templateUrl: '/partials/view.html', controller:"ViewCtrl"})
+    .when('/v/:id', {templateUrl: '/partials/view.html', controller:'ViewCtrl', resolve: ['ViewCtrlData']})
 
     # Catch all
     .otherwise({redirectTo: '/view1'})

@@ -1,6 +1,5 @@
-angular
-  .module('app.controllers', [])
-  .controller('RecordCtrl', ($scope, $location, ImgUploadService, FileAPI) ->
+angular.module('app.controllers', [])
+  .controller('RecordCtrl', ($scope, $location, ImgUploadService, FileAPI, PlacesService) ->
     $scope.formData = {}
     $scope.setFile = (element) ->
       $scope.$apply ($scope) ->
@@ -15,7 +14,14 @@ angular
         else
           $scope.formData.file = null
 
+    $scope.getPlaces= (a) ->
+      PlacesService.suggest($scope.formData.placeText)
+
+    $scope.onSelect = ($item, $model, $label)->
+      $scope.formData.place = $item
+
     $scope.record = ->
+      $scope.formData.date = new Date()
       ImgUploadService.upload($scope.formData)
       .success((data, status, headers, config) ->
         $location.path("/v/#{data.data.id}")
@@ -25,17 +31,21 @@ angular
         console.log status
       )
   )
-  .controller('ViewCtrl', ($scope, $routeParams, ImgUploadService) ->
-    ImgUploadService.get($routeParams.id)
-    .success((data, status, headers, config) ->
-      d = data.data
-      d.description = $.parseJSON(d.description)
-      d.dateFormatted = moment(d.description.date).format 'dddd MMMM Do YYYY'
-      $scope.d = d
-
-    ).error((data, status, headers, config) ->
-      console.log "ERROR"
-      console.log data
-      console.log status
-    )
+  .controller('ViewCtrl', ($scope, ViewCtrlData) ->
+    $scope.d = ViewCtrlData
   )
+  .factory('ViewCtrlData', ($q, $route, ImgUploadService) ->
+    d = $q.defer()
+    id= $route.current.params.id
+    ImgUploadService.get(id)
+    .success((response, status, headers, config) ->
+      data = response.data
+      data.description = $.parseJSON(data.description)
+      d.resolve response.data
+    ).error((data, status, headers, config) ->
+      d.resolve "Error"
+    )
+    d.promise
+  )
+
+

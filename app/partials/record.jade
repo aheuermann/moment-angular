@@ -1,14 +1,20 @@
 div.row
   div.span12
     input(type="text",class="input-xxlarge",placeholder="What",ng-model="formData.title")
+
 div.row
   div.span12
     input(type="file",accept="image/*",onchange="angular.element(this).scope().setFile(this)")
   div.span12.well
     img(ng-src="{{formData.file}}")
+
 div.row
   div.span12
     pickdate
+
+div.row
+  div.span12
+    input(type="text",class="input-xxlarge",placeholder="Where",ng-model="formData.placeText",typeahead="place.description for place in getPlaces()",typeahead-on-select="onSelect($item)",typeahead-min-length="3")
 div.row
   div.span12
     button.btn.btn-success(ng-click="record()") Record

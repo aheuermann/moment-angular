@@ -29,7 +29,7 @@ angular
           data:
             image: d.file.substring(d.file.indexOf(',')+1)
             title: d.title
-            description: JSON.stringify({date: new Date()})
+            description: JSON.stringify({date: d.date, place:d.place})
         }
       get: (id) ->
         $http {
@@ -37,6 +37,21 @@ angular
           method: "GET"
           headers: headers
         }
+    }
+  )
+  .value('GOOGLE_KEY', 'AIzaSyAQSxsZkYb7X5Iji9xNi0JmNWi7lsGftJE')
+  .factory('PlacesService', ($http, GOOGLE_KEY) ->
+    return {
+      suggest: (q) ->
+        $http({
+          url: "http://localhost:8080/places"
+          method: 'GET'
+          params:
+            q: q
+        })
+        .then((response) ->
+          return response.data?.predictions
+        )
     }
   )
   
