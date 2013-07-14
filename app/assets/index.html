@@ -1,8 +1,8 @@
 <!doctype html>
-	<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en" ng-app="app"> <![endif]-->
-	<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8 ie7" lang="en" ng-app="app"> <![endif]-->
-	<!--[if IE 8]>    <html class="no-js lt-ie9 ie8" lang="en" ng-app="app"> <![endif]-->
-	<!--[if (gte IE 8)|!(IE)]><!--> <html class="no-js" lang="en" ng-app="app"> <!--<![endif]-->
+	<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en" ng-app="app" ng-controller="AppCtrl"> <![endif]-->
+	<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8 ie7" lang="en" ng-app="app" ng-controller="AppCtrl"> <![endif]-->
+	<!--[if IE 8]>    <html class="no-js lt-ie9 ie8" lang="en" ng-app="app" ng-controller="AppCtrl"> <![endif]-->
+	<!--[if (gte IE 8)|!(IE)]><!--> <html class="no-js" lang="en" ng-app="app" ng-controller="AppCtrl"> <!--<![endif]-->
 	<head>
 		<!-- TITLE & METADATA -->
 		<title>Moment</title>
@@ -25,6 +25,7 @@
 		<link rel="stylesheet" href="css/app.css" />
 	</head>
 	<body>
+		<div ng-class="{active: alert == true}" class="globalAlert alert {{alertType}}" ng-cloak>{{alertMessage}}</div>
 	  <header class="navbar navbar-fixed-top navbar-inverse" bs-navbar>
 		  <div class="navbar-inner">
 		  	<div class="container">

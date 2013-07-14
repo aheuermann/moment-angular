@@ -3,7 +3,6 @@
 @import "../../vendor/styles/bootstrap/_responsive.less";
 @import "../../vendor/styles/_flatty.less";
 @import "_loading.less";
-@import "_animations.less";
 
 *, *:before, *:after { .box-sizing(border-box); }
 
@@ -24,6 +23,16 @@ body {
   background: lighten(@green, 20%);
 }
 
+.fade-hide, .fade-show{
+  .transition(all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s);
+}
+.fade-hide, .fade-show.fade-show-active {
+  opacity:1;
+}
+.fade-hide.fade-hide-active, .fade-show {
+  opacity:0;
+}
+
 .img-large{
   background: #fff;
   box-shadow: 0 1px 2px rgba(0,0,0,0.15);
@@ -38,5 +47,19 @@ body {
   margin:3px;
   border:1px solid;
 }
+header.navbar{
+  position:relative;
+}
+.globalAlert {
+  .transition(top cubic-bezier(0.250, 0.460, 0.450, 0.940) 1.5s);
+  position:absolute;
+  left: 50%;
+  top: 0;
+  .border-radius(0px 0px 5px 5px);
+}
 
+.globalAlert.active{
+  .transition(top cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.75s);
+  top:59px;
+}
 
