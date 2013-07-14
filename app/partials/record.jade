@@ -5,7 +5,6 @@ div.row
   div.span12
     input(type="file",accept="image/*",onchange="angular.element(this).scope().setFile(this)")
   div.span12.well
-    div {{formData.file}}
     img(ng-src="{{formData.file}}")
 div.row
   div.span12
