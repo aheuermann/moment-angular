@@ -20,6 +20,8 @@ angular.module('app.controllers', [])
       $scope.formData.place = $item
 
     $scope.record = ->
+      $scope.saveDisabled = true
+      $('html, body').animate({ scrollTop: 0 }, 1000)
       $scope.triggerAlert 'alert-info', 'Uploading...'
       ImgUploadService.upload($scope.formData)
         .success((data, status, headers, config) ->
@@ -37,9 +39,9 @@ angular.module('app.controllers', [])
             $scope.triggerAlert 'alert-success', 'Saved!', true
             $location.path("/v/#{data.id}")
           )
-          .error(-> $scope.triggerError())
+          .error(-> $scope.saveDisabled = false; $scope.triggerError())
         )
-        .error(-> $scope.triggerError())
+        .error(-> $scope.saveDisabled = false; $scope.triggerError())
   )
   .controller('ViewCtrl', ($scope, data) ->
     google.maps.visualRefresh = true

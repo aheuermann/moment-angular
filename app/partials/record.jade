@@ -17,5 +17,5 @@ div.row
     input(type="text",class="input-xxlarge",placeholder="Where",ng-model="formData.placeText",typeahead="place.description for place in getPlaces()",typeahead-on-select="onSelect($item)",typeahead-min-length="3")
 div.row
   div.span12
-    button.btn.btn-success(ng-click="record()") Record
+    button.btn.btn-success(ng-click="record()",ng-disabled="saveDisabled",ng-class="{muted: saveDisabled == true}") Record
 
