@@ -36,7 +36,7 @@ angular
   .factory('API', ($q, $http, GOOGLE_KEY) ->
     return {
       placeSuggest: (q) ->
-        $http.get("#{API_URL}/place/search", {params: {q:q}})
+        $http.get("#{C.API_URL}/place/search", {params: {q:q}})
         .then((response) ->
           return response.data?.predictions
         )
