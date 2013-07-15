@@ -16,7 +16,7 @@ angular.module('app', [
     .when('/recent', {templateUrl: '/partials/view_all.html', controller:'ViewAllCtrl', resolve: {data: (ViewCtrlDataResolver)->  ViewCtrlDataResolver.getAll()}})
 
     # Catch all
-    .otherwise({redirectTo: '/record'})
+    .otherwise({redirectTo: '/recent'})
 )
 .config(($httpProvider)->
   delete $httpProvider.defaults.headers.common["X-Requested-With"]

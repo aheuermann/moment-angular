@@ -63,7 +63,6 @@ angular.module('app.controllers', [])
     }
   )
   .controller('ViewAllCtrl', ($scope, data) ->
-    console.log data
     $scope.recentMoments = data
   )
   .service('ViewCtrlDataResolver', ($q, $route, API, $rootScope) ->
