@@ -15,7 +15,7 @@
   "scripts": {
     "start": "brunch w -s",
     "test": "brunch t",
-    "postinstall": "brunch b -o"
+    "postinstall": "brunch b"
   },
   "dependencies": {
     "statik": ">= 1.1.0",
