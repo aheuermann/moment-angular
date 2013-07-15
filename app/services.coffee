@@ -36,14 +36,16 @@ angular
   .factory('API', ($q, $http, GOOGLE_KEY) ->
     return {
       placeSuggest: (q) ->
-        $http.get("http://localhost:8080/place/search", {params: {q:q}})
+        $http.get("#{API_URL}/place/search", {params: {q:q}})
         .then((response) ->
           return response.data?.predictions
         )
       get: (id) ->
-        $http.get("http://localhost:8080/moment/#{id}")
+        $http.get("#{C.API_URL}/moment/#{id}")
+      getAll: (id) ->
+        $http.get("#{C.API_URL}/moments")
       save: (data) ->
-        $http.post("http://localhost:8080/moment", data)
+        $http.post("#{C.API_URL}/moment", data)
 
     }
   )

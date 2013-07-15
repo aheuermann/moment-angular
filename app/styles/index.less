@@ -27,15 +27,25 @@ body {
 .fade-hide, .fade-show{
   .transition(all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s);
 }
-.fade-hide, .fade-show.fade-show-active {
+.fade-hide{
   opacity:1;
 }
-.fade-hide.fade-hide-active, .fade-show {
+.fade-hide.fade-hide-active{
   opacity:0;
+}
+
+.fade-show {
+  opacity:0;
+}
+.fade-show.fade-show-active {
+  opacity:1;
 }
 
 .record .row {
   margin-bottom: 20px;
+}
+.item{
+  margin-top:25px;
 }
 
 .imgContainer{

@@ -62,6 +62,10 @@ angular.module('app.controllers', [])
       clickedLongitudeProperty: null
     }
   )
+  .controller('ViewAllCtrl', ($scope, data) ->
+    console.log data
+    $scope.recentMoments = data
+  )
   .service('ViewCtrlDataResolver', ($q, $route, API, $rootScope) ->
     return {
       get: ->
@@ -72,11 +76,22 @@ angular.module('app.controllers', [])
           if response.date
             response.date = Date.parseIso8601 response.date 
             response.dateFormatted = moment(response.date).format 'dddd MMMM Do, YYYY'
-          if response.created_at
-            response.created_at = Date.parseIso8601 response.created_at
-            response.createFormatted = moment(response.created_at).format 'dddd MMMM Do, YYYY'
           d.resolve response
-        ).error((data, status, headers, config) ->
+        )
+        .error((data, status, headers, config) ->
+          d.resolve "Error"
+        )
+        d.promise
+      getAll: ->
+        d = $q.defer()
+        API.getAll()
+        .success((response, status, headers, config) ->
+          for r in response
+            r.date = Date.parseIso8601 r.date
+            r.dateFormatted = moment(r.date).format 'dddd MMMM Do, YYYY' 
+          d.resolve response
+        )
+        .error((data, status, headers, config) ->
           d.resolve "Error"
         )
         d.promise

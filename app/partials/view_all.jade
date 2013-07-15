@@ -1,0 +1,10 @@
+div.item(ng-repeat="d in recentMoments",ng-animate="{enter: 'fade-show'}")
+  div.row
+    div.span12
+      h3 {{d.title}}
+      h4 {{d.placeTitle}}
+      h5.muted {{d.dateFormatted}}
+
+  div.row
+    div.span12
+      img.img-large(ng-src="{{d.imgLink}}", style="max-height:500px")

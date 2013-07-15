@@ -13,12 +13,19 @@ angular.module('app', [
   $routeProvider
     .when('/record', {templateUrl: '/partials/record.html', controller:"RecordCtrl"})
     .when('/v/:id', {templateUrl: '/partials/view.html', controller:'ViewCtrl', resolve: {data: (ViewCtrlDataResolver)->  ViewCtrlDataResolver.get()}})
+    .when('/recent', {templateUrl: '/partials/view_all.html', controller:'ViewAllCtrl', resolve: {data: (ViewCtrlDataResolver)->  ViewCtrlDataResolver.getAll()}})
 
     # Catch all
     .otherwise({redirectTo: '/record'})
 )
 .config(($httpProvider)->
   delete $httpProvider.defaults.headers.common["X-Requested-With"]
+)
+.run(->
+  developemnt = window.location.hostname is 'localhost'
+  window.C=
+    API_URL: if developemnt then 'http://localhost:8080' else 'http://moment-api.herokuapp.com'
+
 )
 
 AppCtrl = ($scope, $rootScope, $location, $timeout) ->

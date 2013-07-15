@@ -9,13 +9,16 @@
     "url": ""
   },
   "engines": {
-    "node": "~0.10"
+    "node": "~0.10",
+    "npm" : "1.2.x"
   },
   "scripts": {
     "start": "brunch w -s",
-    "test": "brunch t"
+    "test": "brunch t",
+    "postinstall": "brunch b -o"
   },
   "dependencies": {
+    "statik": ">= 1.1.0",
     "javascript-brunch": ">= 1.0 < 1.7",
     "coffee-script-brunch": ">= 1.0 < 1.7",
     "jade-brunch": ">= 1.0 < 1.7",
