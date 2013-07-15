@@ -10,9 +10,14 @@ angular.module('app.controllers', [])
               $scope.formData.file = data
             , -> 
               $scope.triggerError()
-        else
-          $scope.formData.file = null
+    $scope.imgDialog= ->
+      #move this to a directive for a img upload
+      setTimeout ->
+        $('input[type=file]').click() 
+      , 0
 
+    $scope.removeImg= ->
+      $scope.formData.file = null
     $scope.getPlaces= (a) ->
       API.placeSuggest($scope.formData.placeText)
 
@@ -57,7 +62,7 @@ angular.module('app.controllers', [])
       clickedLongitudeProperty: null
     }
   )
-  .service('ViewCtrlDataResolver', ($q, $route, API) ->
+  .service('ViewCtrlDataResolver', ($q, $route, API, $rootScope) ->
     return {
       get: ->
         d = $q.defer()

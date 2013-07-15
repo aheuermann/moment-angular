@@ -1,21 +1,33 @@
-div.row
-  div.span12
-    input(type="text",class="input-xxlarge",placeholder="What",ng-model="formData.title")
+div.record
+  
+  div.row
+    div.span12
+      input(type="text",class="input-xxlarge",placeholder="What",ng-model="formData.title")
 
-div.row
-  div.span12
-    input(type="file",accept="image/*",onchange="angular.element(this).scope().setFile(this)")
-  div.span12.well
-    img(ng-src="{{formData.file}}")
+  div.row(ng-hide="formData.file")
+    div.span12
+      a.btn.btn-inverse(ng-click="imgDialog(this)")
+        i.icon-camera-retro 
+          span Add an Picture
+      input.hidden(type="file",accept="image/*",onchange="angular.element(this).scope().setFile(this)")
 
-div.row
-  div.span12
-    pickdate
+  div.row(ng-show="formData.file")
+    div.span12.imgContainer
+      div.actions
+        a.replace(ng-click="imgDialog(this)")
+          i.icon-pencil
+        a.remove(ng-click="removeImg(this)")
+          i.icon-remove
+      img.img-large(ng-src="{{formData.file}}")
 
-div.row
-  div.span12
-    input(type="text",class="input-xxlarge",placeholder="Where",ng-model="formData.placeText",typeahead="place.description for place in getPlaces()",typeahead-on-select="onSelect($item)",typeahead-min-length="3")
-div.row
-  div.span12
-    button.btn.btn-success(ng-click="record()",ng-disabled="saveDisabled",ng-class="{muted: saveDisabled == true}") Record
+  div.row
+    div.span12
+      pickdate
 
+  div.row
+    div.span12
+      input(type="text",class="input-xxlarge",placeholder="Where",ng-model="formData.placeText",typeahead="place.description for place in getPlaces()",typeahead-on-select="onSelect($item)",typeahead-min-length="3")
+  
+  div.row
+    div.span12
+      button.btn.btn-success(ng-click="record()",ng-disabled="saveDisabled",ng-class="{muted: saveDisabled == true}") Record
