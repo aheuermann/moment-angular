@@ -12,7 +12,7 @@ angular.module('app', [
 .config(($routeProvider, $locationProvider) ->
   $routeProvider
     .when('/record', {templateUrl: '/partials/record.html', controller:"RecordCtrl"})
-    .when('/v/:id', {templateUrl: '/partials/view.html', controller:'ViewCtrl', resolve: ['ViewCtrlData']})
+    .when('/v/:id', {templateUrl: '/partials/view.html', controller:'ViewCtrl', resolve: {data: (ViewCtrlDataResolver)->  ViewCtrlDataResolver.get()}})
 
     # Catch all
     .otherwise({redirectTo: '/view1'})

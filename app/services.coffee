@@ -22,7 +22,6 @@ angular
       'Authorization': "Client-ID dd3300b7ef32d64"
     return {
       upload:(d) ->
-        console.log d
         $http {
           url: "#{IMGUR_API}/image"
           method: "POST"
@@ -30,12 +29,6 @@ angular
           data:
             image: d.file.substring(d.file.indexOf(',')+1)
             title: d.title
-        }
-      get: (id) ->
-        $http {
-          url: "#{IMGUR_API}/image/#{id}"
-          method: "GET"
-          headers: headers
         }
     }
   )

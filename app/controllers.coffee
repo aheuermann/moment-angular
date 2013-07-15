@@ -35,16 +35,15 @@ angular.module('app.controllers', [])
           API.save(r)
           .success((data) ->
             $scope.triggerAlert 'alert-success', 'Saved!', true
-            console.log data
             $location.path("/v/#{data.id}")
           )
-          .error($scope.triggerError)
+          .error(-> $scope.triggerError())
         )
-        .error($scope.triggerError)
+        .error(-> $scope.triggerError())
   )
-  .controller('ViewCtrl', ($scope, ViewCtrlData) ->
+  .controller('ViewCtrl', ($scope, data) ->
     google.maps.visualRefresh = true
-    $scope.d = ViewCtrlData
+    $scope.d = data
     angular.extend $scope, {
       position:
         coords:
@@ -59,22 +58,27 @@ angular.module('app.controllers', [])
       clickedLongitudeProperty: null
     }
   )
-  .factory('ViewCtrlData', ($q, $route, API) ->
-    d = $q.defer()
-    id= $route.current.params.id
-    API.get(id)
-    .success((response, status, headers, config) ->
-      if response.date
-        response.date = Date.parseIso8601 response.date 
-        response.dateFormatted = moment(response.date).format 'dddd MMMM Do, YYYY'
-      if response.created_at
-        response.created_at = Date.parseIso8601 response.created_at
-        response.createFormatted = moment(response.created_at).format 'dddd MMMM Do, YYYY'
-      d.resolve response
-    ).error((data, status, headers, config) ->
-      d.resolve "Error"
-    )
-    d.promise
+  .service('ViewCtrlDataResolver', ($q, $route, API) ->
+    return {
+      get: ->
+        console.log $route.current.params.id
+        d = $q.defer()
+        id= $route.current.params.id
+        API.get(id)
+        .success((response, status, headers, config) ->
+          if response.date
+            response.date = Date.parseIso8601 response.date 
+            response.dateFormatted = moment(response.date).format 'dddd MMMM Do, YYYY'
+          if response.created_at
+            response.created_at = Date.parseIso8601 response.created_at
+            response.createFormatted = moment(response.created_at).format 'dddd MMMM Do, YYYY'
+          console.log response
+          d.resolve response
+        ).error((data, status, headers, config) ->
+          d.resolve "Error"
+        )
+        d.promise
+    }
   )
 
 
