@@ -44,16 +44,13 @@ angular.module('app.controllers', [])
   .controller('ViewCtrl', ($scope, data) ->
     google.maps.visualRefresh = true
     $scope.d = data
+    loc = {latitude:data.loc[0], longitude: data.loc[1]}
     angular.extend $scope, {
       position:
-        coords:
-          latitude: 45
-          longitude: -73
-      centerProperty:
-        latitude: 45
-        longitude: -73
-      zoomProperty: 7
-      markersProperty: []
+        coords: loc
+      centerProperty: loc
+      zoomProperty: 15
+      markersProperty: [loc]
       clickedLatitudeProperty: null 
       clickedLongitudeProperty: null
     }
@@ -61,7 +58,6 @@ angular.module('app.controllers', [])
   .service('ViewCtrlDataResolver', ($q, $route, API) ->
     return {
       get: ->
-        console.log $route.current.params.id
         d = $q.defer()
         id= $route.current.params.id
         API.get(id)
@@ -72,7 +68,6 @@ angular.module('app.controllers', [])
           if response.created_at
             response.created_at = Date.parseIso8601 response.created_at
             response.createFormatted = moment(response.created_at).format 'dddd MMMM Do, YYYY'
-          console.log response
           d.resolve response
         ).error((data, status, headers, config) ->
           d.resolve "Error"

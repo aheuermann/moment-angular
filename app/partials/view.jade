@@ -1,15 +1,16 @@
 div.row
   div.span12
     h1 {{d.title}}
+    h3 {{d.placeTitle}}
+    h5.muted {{d.dateFormatted}}
 
 div.row
   div.span12
-    img.img-large(ng-src="{{d.imgLink}}")
+    img.img-large(ng-src="{{d.imgLink}}", style="max-height:500px")
 
 div.row
   div.span12
-    div.date {{d.dateFormatted}}
-
+    
 div.row.last
   div.span12
     div.google-map(center="position.coords",zoom="zoomProperty",markers="markersProperty",latitude="clickedLatitudeProperty",longitude="clickedLongitudeProperty",draggable="true",fit="false",style="height: 200px; width: 100%")
