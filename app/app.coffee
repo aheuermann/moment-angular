@@ -1,7 +1,7 @@
 # Declare app level module which depends on filters, and services
 angular.module('app', [
   'ui.bootstrap'
-  'ui.map'
+  'google-maps'
   'ngCookies'
   'ngResource'
   'app.controllers'
@@ -21,19 +21,26 @@ angular.module('app', [
   delete $httpProvider.defaults.headers.common["X-Requested-With"]
 )
 
-AppCtrl = ($scope, $rootScope, $location) ->
+AppCtrl = ($scope, $rootScope, $location, $timeout) ->
+  $rootScope.triggerAlert = (type, message, autoClear=false) ->
+    $rootScope.alert= true
+    $rootScope.alertType= type
+    $rootScope.alertMessage= message
+    if autoClear
+      $timeout -> 
+        $rootScope.clearAlert()
+      , 1000
+  $rootScope.triggerError = (message="Oops, that wasn't supposed to happen. Please try again...") ->
+    $rootScope.triggerAlert 'alert-error', message
+  $rootScope.clearAlert = ->
+    $rootScope.alert= false
+
+
   $rootScope.$on "$routeChangeStart", (event, next, current) ->
-    $scope.alertType = "alert-info"
-    $scope.alertMessage = "Loading..."
-    $scope.alert = true
+    $scope.triggerAlert "alert-info", "Loading..."
   $rootScope.$on "$routeChangeSuccess", (event, current, previous) ->
-    #$scope.alertType = "alert-success"
-    #$scope.alertMessage = "Successfully changed routes :)"
-    $scope.alert = false
+    $scope.clearAlert()
     $scope.newLocation = $location.path()
   $rootScope.$on "$routeChangeError", (event, current, previous, rejection) ->
-    $scope.alertType = "alert-error"
-    $scope.alertMessage = "Error: #{rejection}"
-    $scope.alert = true
-  $scope.alert = false
-  $scope.alertType= 'alert-info'
+    $scope.triggerAlert "alert-error", "Error: #{rejection}"
+  $rootScope.clearAlert()

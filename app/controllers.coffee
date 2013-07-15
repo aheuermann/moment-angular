@@ -1,5 +1,5 @@
 angular.module('app.controllers', [])
-  .controller('RecordCtrl', ($scope, $location, ImgUploadService, FileAPI, PlacesService) ->
+  .controller('RecordCtrl', ($scope, $location, ImgUploadService, FileAPI, API) ->
     $scope.formData = {}
     $scope.setFile = (element) ->
       $scope.$apply ($scope) ->
@@ -8,40 +8,69 @@ angular.module('app.controllers', [])
           FileAPI.loadFileData(files[0])
             .then (data) -> 
               $scope.formData.file = data
-              console.log $scope.formData.fileData 
             , -> 
-              console.log "ERRORORRORORORORORO"
+              $scope.triggerError()
         else
           $scope.formData.file = null
 
     $scope.getPlaces= (a) ->
-      PlacesService.suggest($scope.formData.placeText)
+      API.placeSuggest($scope.formData.placeText)
 
     $scope.onSelect = ($item, $model, $label)->
       $scope.formData.place = $item
 
     $scope.record = ->
-      $scope.formData.date = new Date()
+      $scope.triggerAlert 'alert-info', 'Uploading...'
       ImgUploadService.upload($scope.formData)
-      .success((data, status, headers, config) ->
-        $location.path("/v/#{data.data.id}")
-      ).error((data, status, headers, config) ->
-        console.log "ERROR"
-        console.log data
-        console.log status
-      )
+        .success((data, status, headers, config) ->
+          $scope.triggerAlert 'alert-info', 'Saving...'
+          r =
+            title: $scope.formData.title
+            imgRef: data.data.id
+            imgLink: data.data.link
+            placeRef: $scope.formData.place.reference
+            placeTitle: $scope.formData.place.description
+            imgDelete: data.data.deletehash
+            date: new Date()
+          API.save(r)
+          .success((data) ->
+            $scope.triggerAlert 'alert-success', 'Saved!', true
+            console.log data
+            $location.path("/v/#{data.id}")
+          )
+          .error($scope.triggerError)
+        )
+        .error($scope.triggerError)
   )
   .controller('ViewCtrl', ($scope, ViewCtrlData) ->
+    google.maps.visualRefresh = true
     $scope.d = ViewCtrlData
+    angular.extend $scope, {
+      position:
+        coords:
+          latitude: 45
+          longitude: -73
+      centerProperty:
+        latitude: 45
+        longitude: -73
+      zoomProperty: 7
+      markersProperty: []
+      clickedLatitudeProperty: null 
+      clickedLongitudeProperty: null
+    }
   )
-  .factory('ViewCtrlData', ($q, $route, ImgUploadService) ->
+  .factory('ViewCtrlData', ($q, $route, API) ->
     d = $q.defer()
     id= $route.current.params.id
-    ImgUploadService.get(id)
+    API.get(id)
     .success((response, status, headers, config) ->
-      data = response.data
-      data.description = $.parseJSON(data.description)
-      d.resolve response.data
+      if response.date
+        response.date = Date.parseIso8601 response.date 
+        response.dateFormatted = moment(response.date).format 'dddd MMMM Do, YYYY'
+      if response.created_at
+        response.created_at = Date.parseIso8601 response.created_at
+        response.createFormatted = moment(response.created_at).format 'dddd MMMM Do, YYYY'
+      d.resolve response
     ).error((data, status, headers, config) ->
       d.resolve "Error"
     )

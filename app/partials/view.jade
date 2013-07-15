@@ -4,15 +4,12 @@ div.row
 
 div.row
   div.span12
-    
-    img.img-large(ng-src="{{d.link}}")
+    img.img-large(ng-src="{{d.imgLink}}")
 
 div.row
   div.span12
     div.date {{d.dateFormatted}}
 
-div.row
-  div.span12.well
-    {{d.description.place}}
-
-
+div.row.last
+  div.span12
+    div.google-map(center="position.coords",zoom="zoomProperty",markers="markersProperty",latitude="clickedLatitudeProperty",longitude="clickedLongitudeProperty",draggable="true",fit="false",style="height: 200px; width: 100%")

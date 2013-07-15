@@ -1,5 +1,5 @@
-#Demonstrate how to register services
-#In this case it is a simple value service.
+
+
 angular
   .module('app.services', [])
   .value('IMGUR_API', 'https://api.imgur.com/3')
@@ -22,6 +22,7 @@ angular
       'Authorization': "Client-ID dd3300b7ef32d64"
     return {
       upload:(d) ->
+        console.log d
         $http {
           url: "#{IMGUR_API}/image"
           method: "POST"
@@ -29,7 +30,6 @@ angular
           data:
             image: d.file.substring(d.file.indexOf(',')+1)
             title: d.title
-            description: JSON.stringify({date: d.date, place:d.place})
         }
       get: (id) ->
         $http {
@@ -40,18 +40,18 @@ angular
     }
   )
   .value('GOOGLE_KEY', 'AIzaSyAQSxsZkYb7X5Iji9xNi0JmNWi7lsGftJE')
-  .factory('PlacesService', ($http, GOOGLE_KEY) ->
+  .factory('API', ($q, $http, GOOGLE_KEY) ->
     return {
-      suggest: (q) ->
-        $http({
-          url: "http://localhost:8080/places"
-          method: 'GET'
-          params:
-            q: q
-        })
+      placeSuggest: (q) ->
+        $http.get("http://localhost:8080/place/search", {params: {q:q}})
         .then((response) ->
           return response.data?.predictions
         )
+      get: (id) ->
+        $http.get("http://localhost:8080/moment/#{id}")
+      save: (data) ->
+        $http.post("http://localhost:8080/moment", data)
+
     }
   )
   
