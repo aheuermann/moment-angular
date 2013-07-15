@@ -43,7 +43,7 @@ angular
       get: (id) ->
         $http.get("#{C.API_URL}/moment/#{id}")
       getAll: (id) ->
-        $http.get("#{C.API_URL}/moments")
+        #$http.get("#{C.API_URL}/moments")
       save: (data) ->
         $http.post("#{C.API_URL}/moment", data)
 
