@@ -1,5 +1,3 @@
-
-
 angular
   .module('app.services', [])
   .value('IMGUR_API', 'https://api.imgur.com/3')

@@ -18,7 +18,7 @@
     "postinstall": "brunch b"
   },
   "dependencies": {
-    "statik": ">= 1.1.0",
+    "express": "~3.3.4",
     "brunch": "1.6.x",
     "javascript-brunch": ">= 1.0 < 1.7",
     "coffee-script-brunch": ">= 1.0 < 1.7",
