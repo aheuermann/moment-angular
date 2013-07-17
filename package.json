@@ -28,7 +28,8 @@
     "less-brunch": ">= 1.0 < 1.7",
     "ngmin-uglify-js-brunch": "1.7.x",
     "clean-css-brunch": ">= 1.0 < 1.7",
-    "auto-reload-brunch": ">= 1.0 < 1.7"
+    "auto-reload-brunch": ">= 1.0 < 1.7",
+    "coffee-script": "~1.6.3"
   },
   "devDependencies": {}
 }
